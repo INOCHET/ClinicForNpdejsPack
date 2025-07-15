@@ -1,13 +1,15 @@
 Скопируйте clinic-offline.zip на целевую систему 
 
 # Распакуйте его:
-Expand-Archive -Path clinic-offline.zip -DestinationPath clinic-offline
-cd clinic-offline
+unzip clinic-offline.zip -d clinic
+cd clinic
 
 # Установите зависимости
-Get-ChildItem *.tgz | Where-Object { $_.Name -ne "clinic-*.tgz" } | ForEach-Object {
-    npm install -g $_.Name
-}
+for file in *.tgz; do
+  if [[ "$file" != clinic* ]]; then
+    npm install -g "./$file"
+  fi
+done
 
 # Установите clinic
-npm install -g clinic-*.tgz
+npm install -g ./clinic-*.tgz
